@@ -35,32 +35,30 @@
             ListViewItem listViewItem3 = new ListViewItem("", 2);
             ListViewItem listViewItem4 = new ListViewItem("", 3);
             ListViewItem listViewItem5 = new ListViewItem("", 4);
+            ListViewItem listViewItem6 = new ListViewItem("", 5);
+            ListViewItem listViewItem7 = new ListViewItem("", 6);
             imageList1 = new ImageList(components);
             tools_list = new ListView();
-            tableLayoutPanel1 = new TableLayoutPanel();
-            label1 = new Label();
-            label2 = new Label();
-            label5 = new Label();
-            numericUpDown2 = new NumericUpDown();
-            label3 = new Label();
-            numericUpDown1 = new NumericUpDown();
-            comboBox1 = new ComboBox();
-            label6 = new Label();
-            numericUpDown3 = new NumericUpDown();
-            numericUpDown4 = new NumericUpDown();
-            button1 = new Button();
+            properties = new TableLayoutPanel();
+            elem_lbl = new Label();
+            x_lbl = new Label();
+            width_lbl = new Label();
+            y_change = new NumericUpDown();
+            y_lbl = new Label();
+            x_change = new NumericUpDown();
+            select_elem = new ComboBox();
+            width_inp = new NumericUpDown();
+            height_inp = new NumericUpDown();
+            add = new Button();
+            height_lbl = new Label();
             saveFileDialog1 = new SaveFileDialog();
-            tableLayoutPanel2 = new TableLayoutPanel();
-            comboBox2 = new ComboBox();
-            label4 = new Label();
             tableLayoutPanel3 = new TableLayoutPanel();
             workplace = new PictureBox();
-            tableLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown2).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown3).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown4).BeginInit();
-            tableLayoutPanel2.SuspendLayout();
+            properties.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)y_change).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)x_change).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)width_inp).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)height_inp).BeginInit();
             tableLayoutPanel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)workplace).BeginInit();
             SuspendLayout();
@@ -75,14 +73,18 @@
             imageList1.Images.SetKeyName(2, "треугольник.png");
             imageList1.Images.SetKeyName(3, "квадрат.png");
             imageList1.Images.SetKeyName(4, "прямоуг.png");
+            imageList1.Images.SetKeyName(5, "многоугольник.png");
+            imageList1.Images.SetKeyName(6, "розетка норм.png");
             // 
             // tools_list
             // 
+            tools_list.Activation = ItemActivation.OneClick;
             tools_list.Alignment = ListViewAlignment.Left;
             tools_list.BackColor = SystemColors.WindowFrame;
             tools_list.BorderStyle = BorderStyle.None;
             tools_list.Dock = DockStyle.Fill;
-            tools_list.Items.AddRange(new ListViewItem[] { listViewItem1, listViewItem2, listViewItem3, listViewItem4, listViewItem5 });
+            tools_list.HeaderStyle = ColumnHeaderStyle.None;
+            tools_list.Items.AddRange(new ListViewItem[] { listViewItem1, listViewItem2, listViewItem3, listViewItem4, listViewItem5, listViewItem6, listViewItem7 });
             tools_list.LargeImageList = imageList1;
             tools_list.Location = new Point(3, 29);
             tools_list.MultiSelect = false;
@@ -91,209 +93,183 @@
             tools_list.TabIndex = 3;
             tools_list.TileSize = new Size(64, 64);
             tools_list.UseCompatibleStateImageBehavior = false;
-            tools_list.SelectedIndexChanged += tools_list_SelectedIndexChanged;
+            tools_list.ItemSelectionChanged += tools_list_ItemSelectionChanged;
+            tools_list.Click += tools_list_SelectedIndexChanged;
             // 
-            // tableLayoutPanel1
+            // properties
             // 
-            tableLayoutPanel1.BackColor = SystemColors.WindowFrame;
-            tableLayoutPanel1.ColumnCount = 4;
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-            tableLayoutPanel1.Controls.Add(label1, 0, 1);
-            tableLayoutPanel1.Controls.Add(label2, 0, 2);
-            tableLayoutPanel1.Controls.Add(label5, 0, 3);
-            tableLayoutPanel1.Controls.Add(numericUpDown2, 3, 2);
-            tableLayoutPanel1.Controls.Add(label3, 2, 2);
-            tableLayoutPanel1.Controls.Add(numericUpDown1, 1, 2);
-            tableLayoutPanel1.Controls.Add(comboBox1, 2, 1);
-            tableLayoutPanel1.Controls.Add(label6, 2, 3);
-            tableLayoutPanel1.Controls.Add(numericUpDown3, 0, 4);
-            tableLayoutPanel1.Controls.Add(numericUpDown4, 2, 4);
-            tableLayoutPanel1.Controls.Add(button1, 0, 5);
-            tableLayoutPanel1.Dock = DockStyle.Left;
-            tableLayoutPanel1.Location = new Point(0, 0);
-            tableLayoutPanel1.Name = "tableLayoutPanel1";
-            tableLayoutPanel1.RowCount = 7;
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel1.Size = new Size(300, 604);
-            tableLayoutPanel1.TabIndex = 4;
+            properties.BackColor = SystemColors.WindowFrame;
+            properties.ColumnCount = 4;
+            properties.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            properties.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            properties.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            properties.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            properties.Controls.Add(elem_lbl, 0, 1);
+            properties.Controls.Add(x_lbl, 0, 2);
+            properties.Controls.Add(width_lbl, 0, 3);
+            properties.Controls.Add(y_change, 3, 2);
+            properties.Controls.Add(y_lbl, 2, 2);
+            properties.Controls.Add(x_change, 1, 2);
+            properties.Controls.Add(select_elem, 2, 1);
+            properties.Controls.Add(width_inp, 0, 4);
+            properties.Controls.Add(height_inp, 2, 4);
+            properties.Controls.Add(add, 0, 5);
+            properties.Controls.Add(height_lbl, 2, 3);
+            properties.Dock = DockStyle.Left;
+            properties.Location = new Point(0, 0);
+            properties.Name = "properties";
+            properties.RowCount = 7;
+            properties.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            properties.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
+            properties.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
+            properties.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
+            properties.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
+            properties.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
+            properties.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            properties.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            properties.Size = new Size(300, 604);
+            properties.TabIndex = 4;
             // 
-            // label1
+            // elem_lbl
             // 
-            label1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
-            label1.AutoSize = true;
-            tableLayoutPanel1.SetColumnSpan(label1, 2);
-            label1.Font = new Font("Montserrat", 17.9999981F, FontStyle.Bold, GraphicsUnit.Point);
-            label1.ForeColor = Color.White;
-            label1.Location = new Point(19, 177);
-            label1.Margin = new Padding(10, 0, 3, 0);
-            label1.Name = "label1";
-            label1.Size = new Size(128, 50);
-            label1.TabIndex = 0;
-            label1.Text = "Элемент";
-            label1.TextAlign = ContentAlignment.MiddleCenter;
+            elem_lbl.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
+            elem_lbl.AutoSize = true;
+            properties.SetColumnSpan(elem_lbl, 2);
+            elem_lbl.Font = new Font("Montserrat", 17.9999981F, FontStyle.Bold, GraphicsUnit.Point);
+            elem_lbl.ForeColor = Color.White;
+            elem_lbl.Location = new Point(19, 177);
+            elem_lbl.Margin = new Padding(10, 0, 3, 0);
+            elem_lbl.Name = "elem_lbl";
+            elem_lbl.Size = new Size(128, 50);
+            elem_lbl.TabIndex = 0;
+            elem_lbl.Text = "Элемент";
+            elem_lbl.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // label2
+            // x_lbl
             // 
-            label2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
-            label2.AutoSize = true;
-            label2.Font = new Font("Montserrat", 17.9999981F, FontStyle.Bold, GraphicsUnit.Point);
-            label2.ForeColor = Color.White;
-            label2.Location = new Point(43, 227);
-            label2.Name = "label2";
-            label2.Size = new Size(29, 50);
-            label2.TabIndex = 2;
-            label2.Text = "x";
-            label2.TextAlign = ContentAlignment.MiddleCenter;
+            x_lbl.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
+            x_lbl.AutoSize = true;
+            x_lbl.Font = new Font("Montserrat", 17.9999981F, FontStyle.Bold, GraphicsUnit.Point);
+            x_lbl.ForeColor = Color.White;
+            x_lbl.Location = new Point(43, 227);
+            x_lbl.Name = "x_lbl";
+            x_lbl.Size = new Size(29, 50);
+            x_lbl.TabIndex = 2;
+            x_lbl.Text = "x";
+            x_lbl.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // label5
+            // width_lbl
             // 
-            label5.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
-            label5.AutoSize = true;
-            tableLayoutPanel1.SetColumnSpan(label5, 2);
-            label5.Font = new Font("Montserrat", 17.9999981F, FontStyle.Bold, GraphicsUnit.Point);
-            label5.ForeColor = Color.White;
-            label5.Location = new Point(24, 277);
-            label5.Margin = new Padding(10, 0, 3, 0);
-            label5.Name = "label5";
-            label5.Size = new Size(123, 50);
-            label5.TabIndex = 6;
-            label5.Text = "Ширина";
-            label5.TextAlign = ContentAlignment.MiddleLeft;
+            width_lbl.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            width_lbl.AutoSize = true;
+            properties.SetColumnSpan(width_lbl, 2);
+            width_lbl.Font = new Font("Montserrat", 17.9999981F, FontStyle.Bold, GraphicsUnit.Point);
+            width_lbl.ForeColor = Color.White;
+            width_lbl.Location = new Point(10, 277);
+            width_lbl.Margin = new Padding(10, 0, 3, 0);
+            width_lbl.Name = "width_lbl";
+            width_lbl.Size = new Size(137, 50);
+            width_lbl.TabIndex = 6;
+            width_lbl.Text = "Ширина";
+            width_lbl.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // numericUpDown2
+            // y_change
             // 
-            numericUpDown2.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            numericUpDown2.Font = new Font("Montserrat", 17.9999981F, FontStyle.Bold, GraphicsUnit.Point);
-            numericUpDown2.Location = new Point(228, 233);
-            numericUpDown2.Name = "numericUpDown2";
-            numericUpDown2.Size = new Size(69, 37);
-            numericUpDown2.TabIndex = 5;
+            y_change.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            y_change.Font = new Font("Montserrat", 17.9999981F, FontStyle.Bold, GraphicsUnit.Point);
+            y_change.Location = new Point(228, 233);
+            y_change.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
+            y_change.Name = "y_change";
+            y_change.Size = new Size(69, 37);
+            y_change.TabIndex = 5;
             // 
-            // label3
+            // y_lbl
             // 
-            label3.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
-            label3.AutoSize = true;
-            label3.Font = new Font("Montserrat", 17.9999981F, FontStyle.Bold, GraphicsUnit.Point);
-            label3.ForeColor = Color.White;
-            label3.Location = new Point(193, 227);
-            label3.Name = "label3";
-            label3.Size = new Size(29, 50);
-            label3.TabIndex = 3;
-            label3.Text = "y";
-            label3.TextAlign = ContentAlignment.MiddleCenter;
+            y_lbl.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
+            y_lbl.AutoSize = true;
+            y_lbl.Font = new Font("Montserrat", 17.9999981F, FontStyle.Bold, GraphicsUnit.Point);
+            y_lbl.ForeColor = Color.White;
+            y_lbl.Location = new Point(193, 227);
+            y_lbl.Name = "y_lbl";
+            y_lbl.Size = new Size(29, 50);
+            y_lbl.TabIndex = 3;
+            y_lbl.Text = "y";
+            y_lbl.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // numericUpDown1
+            // x_change
             // 
-            numericUpDown1.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            numericUpDown1.Font = new Font("Montserrat", 17.9999981F, FontStyle.Bold, GraphicsUnit.Point);
-            numericUpDown1.Location = new Point(78, 233);
-            numericUpDown1.Name = "numericUpDown1";
-            numericUpDown1.Size = new Size(69, 37);
-            numericUpDown1.TabIndex = 7;
+            x_change.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            x_change.Font = new Font("Montserrat", 17.9999981F, FontStyle.Bold, GraphicsUnit.Point);
+            x_change.Location = new Point(78, 233);
+            x_change.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
+            x_change.Name = "x_change";
+            x_change.Size = new Size(69, 37);
+            x_change.TabIndex = 7;
             // 
-            // comboBox1
+            // select_elem
             // 
-            comboBox1.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            tableLayoutPanel1.SetColumnSpan(comboBox1, 2);
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(153, 190);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(144, 23);
-            comboBox1.TabIndex = 1;
+            select_elem.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            properties.SetColumnSpan(select_elem, 2);
+            select_elem.DisplayMember = "Новый";
+            select_elem.DropDownStyle = ComboBoxStyle.DropDownList;
+            select_elem.Font = new Font("Montserrat", 17.9999981F, FontStyle.Bold, GraphicsUnit.Point);
+            select_elem.FormattingEnabled = true;
+            select_elem.Items.AddRange(new object[] { "Новый" });
+            select_elem.Location = new Point(153, 181);
+            select_elem.Name = "select_elem";
+            select_elem.Size = new Size(144, 41);
+            select_elem.TabIndex = 1;
             // 
-            // label6
+            // width_inp
             // 
-            label6.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
-            label6.AutoSize = true;
-            tableLayoutPanel1.SetColumnSpan(label6, 2);
-            label6.Font = new Font("Montserrat", 17.9999981F, FontStyle.Bold, GraphicsUnit.Point);
-            label6.ForeColor = Color.White;
-            label6.Location = new Point(186, 277);
-            label6.Name = "label6";
-            label6.Size = new Size(111, 50);
-            label6.TabIndex = 8;
-            label6.Text = "Высота";
-            label6.TextAlign = ContentAlignment.MiddleCenter;
+            width_inp.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            properties.SetColumnSpan(width_inp, 2);
+            width_inp.Font = new Font("Montserrat", 17.9999981F, FontStyle.Bold, GraphicsUnit.Point);
+            width_inp.Location = new Point(10, 333);
+            width_inp.Margin = new Padding(10, 3, 3, 3);
+            width_inp.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
+            width_inp.Name = "width_inp";
+            width_inp.Size = new Size(137, 37);
+            width_inp.TabIndex = 9;
             // 
-            // numericUpDown3
+            // height_inp
             // 
-            numericUpDown3.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            tableLayoutPanel1.SetColumnSpan(numericUpDown3, 2);
-            numericUpDown3.Font = new Font("Montserrat", 17.9999981F, FontStyle.Bold, GraphicsUnit.Point);
-            numericUpDown3.Location = new Point(10, 333);
-            numericUpDown3.Margin = new Padding(10, 3, 3, 3);
-            numericUpDown3.Name = "numericUpDown3";
-            numericUpDown3.Size = new Size(137, 37);
-            numericUpDown3.TabIndex = 9;
+            height_inp.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            properties.SetColumnSpan(height_inp, 2);
+            height_inp.Font = new Font("Montserrat", 17.9999981F, FontStyle.Bold, GraphicsUnit.Point);
+            height_inp.Location = new Point(153, 333);
+            height_inp.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
+            height_inp.Name = "height_inp";
+            height_inp.Size = new Size(144, 37);
+            height_inp.TabIndex = 10;
             // 
-            // numericUpDown4
+            // add
             // 
-            numericUpDown4.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            tableLayoutPanel1.SetColumnSpan(numericUpDown4, 2);
-            numericUpDown4.Font = new Font("Montserrat", 17.9999981F, FontStyle.Bold, GraphicsUnit.Point);
-            numericUpDown4.Location = new Point(153, 333);
-            numericUpDown4.Name = "numericUpDown4";
-            numericUpDown4.Size = new Size(144, 37);
-            numericUpDown4.TabIndex = 10;
+            properties.SetColumnSpan(add, 4);
+            add.Dock = DockStyle.Fill;
+            add.Font = new Font("Montserrat", 17.9999981F, FontStyle.Bold, GraphicsUnit.Point);
+            add.Location = new Point(10, 380);
+            add.Margin = new Padding(10, 3, 3, 3);
+            add.Name = "add";
+            add.Size = new Size(287, 44);
+            add.TabIndex = 11;
+            add.Text = "Добавить";
+            add.UseVisualStyleBackColor = true;
+            add.Click += add_Click;
             // 
-            // button1
+            // height_lbl
             // 
-            tableLayoutPanel1.SetColumnSpan(button1, 4);
-            button1.Dock = DockStyle.Fill;
-            button1.Font = new Font("Montserrat", 17.9999981F, FontStyle.Bold, GraphicsUnit.Point);
-            button1.Location = new Point(10, 380);
-            button1.Margin = new Padding(10, 3, 3, 3);
-            button1.Name = "button1";
-            button1.Size = new Size(287, 44);
-            button1.TabIndex = 11;
-            button1.Text = "Добавить";
-            button1.UseVisualStyleBackColor = true;
-            // 
-            // tableLayoutPanel2
-            // 
-            tableLayoutPanel2.BackColor = SystemColors.WindowFrame;
-            tableLayoutPanel2.ColumnCount = 2;
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tableLayoutPanel2.Controls.Add(comboBox2, 1, 1);
-            tableLayoutPanel2.Location = new Point(0, 0);
-            tableLayoutPanel2.Name = "tableLayoutPanel2";
-            tableLayoutPanel2.RowCount = 2;
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            tableLayoutPanel2.Size = new Size(200, 100);
-            tableLayoutPanel2.TabIndex = 0;
-            // 
-            // comboBox2
-            // 
-            comboBox2.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            comboBox2.FormattingEnabled = true;
-            comboBox2.Location = new Point(103, 48);
-            comboBox2.Name = "comboBox2";
-            comboBox2.Size = new Size(94, 23);
-            comboBox2.TabIndex = 1;
-            // 
-            // label4
-            // 
-            label4.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
-            label4.AutoSize = true;
-            label4.Font = new Font("Montserrat", 17.9999981F, FontStyle.Bold, GraphicsUnit.Point);
-            label4.ForeColor = Color.White;
-            label4.Location = new Point(14, 0);
-            label4.Name = "label4";
-            label4.Size = new Size(83, 100);
-            label4.TabIndex = 0;
-            label4.Text = "Элемент";
-            label4.TextAlign = ContentAlignment.MiddleCenter;
+            height_lbl.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            height_lbl.AutoSize = true;
+            properties.SetColumnSpan(height_lbl, 2);
+            height_lbl.Font = new Font("Montserrat", 17.9999981F, FontStyle.Bold, GraphicsUnit.Point);
+            height_lbl.ForeColor = Color.White;
+            height_lbl.Location = new Point(153, 277);
+            height_lbl.Name = "height_lbl";
+            height_lbl.Size = new Size(144, 50);
+            height_lbl.TabIndex = 12;
+            height_lbl.Text = "Высота";
+            height_lbl.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // tableLayoutPanel3
             // 
@@ -329,19 +305,18 @@
             BackColor = SystemColors.ActiveCaption;
             ClientSize = new Size(1194, 604);
             Controls.Add(tableLayoutPanel3);
-            Controls.Add(tableLayoutPanel1);
+            Controls.Add(properties);
             Controls.Add(workplace);
             Name = "Form1";
             StartPosition = FormStartPosition.Manual;
             Text = "Form1";
             Load += Form1_Load;
-            tableLayoutPanel1.ResumeLayout(false);
-            tableLayoutPanel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown2).EndInit();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown3).EndInit();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown4).EndInit();
-            tableLayoutPanel2.ResumeLayout(false);
+            properties.ResumeLayout(false);
+            properties.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)y_change).EndInit();
+            ((System.ComponentModel.ISupportInitialize)x_change).EndInit();
+            ((System.ComponentModel.ISupportInitialize)width_inp).EndInit();
+            ((System.ComponentModel.ISupportInitialize)height_inp).EndInit();
             tableLayoutPanel3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)workplace).EndInit();
             ResumeLayout(false);
@@ -350,23 +325,20 @@
         #endregion
         private ImageList imageList1;
         private ListView tools_list;
-        private TableLayoutPanel tableLayoutPanel1;
+        private TableLayoutPanel properties;
         private SaveFileDialog saveFileDialog1;
-        private Label label1;
-        private ComboBox comboBox1;
-        private Label label2;
-        private Label label3;
-        private NumericUpDown numericUpDown2;
-        private Label label5;
-        private TableLayoutPanel tableLayoutPanel2;
-        private ComboBox comboBox2;
-        private Label label4;
-        private NumericUpDown numericUpDown1;
-        private Label label6;
-        private NumericUpDown numericUpDown3;
-        private NumericUpDown numericUpDown4;
+        private Label elem_lbl;
+        private ComboBox select_elem;
+        private Label x_lbl;
+        private Label y_lbl;
+        private NumericUpDown y_change;
+        private Label width_lbl;
+        private NumericUpDown x_change;
+        private NumericUpDown width_inp;
+        private NumericUpDown height_inp;
         private TableLayoutPanel tableLayoutPanel3;
-        private Button button1;
+        private Button add;
         private PictureBox workplace;
+        private Label height_lbl;
     }
 }

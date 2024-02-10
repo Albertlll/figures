@@ -8,14 +8,22 @@ namespace figures
 {
     public class ShapeContainer
     {
-        public static List<AbstractFigure> list;
-        public ShapeContainer() { 
+        private static List<AbstractFigure> list;
+        public ShapeContainer() {
             list = new List<AbstractFigure>();
         }
+
         public static void AddFigure(AbstractFigure figure)
         {
             list.Add(figure);
         }
+
+        static public List<AbstractFigure> get_list()
+        {
+            return list;
+        }
+
+
 
         public static void DelFigure(AbstractFigure figure, bool for_move)
         {
@@ -35,6 +43,14 @@ namespace figures
                 list.Add(figure);
             }
 
+        }
+
+        public static void DrawAll()
+        {
+            foreach (AbstractFigure f in list)
+            {
+                f.Draw();
+            }
         }
 
     }

@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace figures
 {
-    class Rectangle : AbstractFigure
+    public class Rectangle : AbstractFigure
     {
-        public Rectangle(int x, int y, int w, int h) { 
         
+        public Rectangle(int x, int y, int w, int h) : base()
+        {
+            
             this.x = x;
             this.y = y;
             this.width = w;
