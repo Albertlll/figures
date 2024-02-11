@@ -7,70 +7,37 @@ namespace figures
 {
     public partial class Form1 : Form
     {
-
-
-        Bitmap bmp;
-        Pen pen;
         private int previous_controls = 4;
-
-        private int previous_selected_tool = 3;
-
-        ShapeContainer sc = new ShapeContainer();
+        private AbstractFigure? now_elem = null;
 
         private Dictionary<int, string> ind_figure = new Dictionary<int, string>() {
+            { 0, "Сircle"},
+            { 1, "Ellipse"},
+            { 2, "Triangle"},
             { 3, "Square"},
-            { 4, "Rectangle"}
-        
-        };
+            { 4, "Rectangle"},
+            { 5, "Polygon"},
+            { 6, "Own"}
 
+
+        };
         public Form1()
         {
             InitializeComponent();
             AllocConsole();
             tools_list.Items[4].Selected = true;
+            select_elem.SelectedIndex = 0;
 
-            this.pen = new Pen(Color.Black, 10);
-            this.bmp = new Bitmap(workplace.ClientSize.Width, workplace.ClientSize.Height);
             Init.picture_box = workplace;
-            Init.bitmap = this.bmp;
-            Init.pen = this.pen;
-
-
+            Init.bitmap = new Bitmap(workplace.ClientSize.Width, workplace.ClientSize.Height);
+            Init.pen = new Pen(Color.Black, 10);
 
         }
 
         [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         static extern bool AllocConsole();
-        private void Form1_Load(object sender, EventArgs e)
-        {
 
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void splitContainer1_Panel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void splitContainer2_Panel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void splitContainer1_Panel2_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void toolStripContainer1_RightToolStripPanel_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void create_one_len()
         {
@@ -111,6 +78,7 @@ namespace figures
 
                 case 1:
                     create_two_len();
+                    update_elem_list(ind_figure[1]);
                     break;
 
                 case 2:
@@ -135,9 +103,6 @@ namespace figures
             }
 
             previous_controls = selected_item;
-
-
-
         }
 
 
@@ -146,7 +111,7 @@ namespace figures
             select_elem.Items.Clear();
             select_elem.Items.Add("Новый");
             select_elem.SelectedIndex = 0;
-            foreach (AbstractFigure i in ShapeContainer.get_list())
+            foreach (AbstractFigure i in ShapeContainer.list)
             {
                 if (i.GetType().Name == f_type)
                 {
@@ -157,11 +122,12 @@ namespace figures
 
         private void add_Click(object sender, EventArgs e)
         {
-            Console.WriteLine(10);
-            if (!(select_elem.SelectedItem.ToString() == "Новый"))
+            if (!(select_elem.Text.ToString() == "Новый"))
             {
                 return;
             }
+
+
 
             int selected_item = tools_list.SelectedIndices[0];
             switch (selected_item)
@@ -170,6 +136,12 @@ namespace figures
                     break;
 
                 case 1:
+                    Ellipse el = new Ellipse(Convert.ToInt32(x_change.Value),
+                       Convert.ToInt32(y_change.Value),
+                       Convert.ToInt32(width_inp.Value),
+                       Convert.ToInt32(height_inp.Value));
+                    ShapeContainer.DrawAll();
+                    update_elem_list(ind_figure[1]);
                     break;
 
                 case 2:
@@ -179,8 +151,6 @@ namespace figures
                     Square sq = new Square(Convert.ToInt32(x_change.Value),
                                            Convert.ToInt32(y_change.Value),
                                            Convert.ToInt32(width_inp.Value));
-
-                    ShapeContainer.AddFigure(sq);
                     ShapeContainer.DrawAll();
                     update_elem_list(ind_figure[3]);
                     break;
@@ -190,7 +160,7 @@ namespace figures
                                            Convert.ToInt32(y_change.Value),
                                            Convert.ToInt32(width_inp.Value),
                                            Convert.ToInt32(height_inp.Value));
-                    ShapeContainer.AddFigure(rect);
+                    //ShapeContainer.list.Add(rect);
                     ShapeContainer.DrawAll();
                     update_elem_list(ind_figure[4]);
                     break;
@@ -200,6 +170,8 @@ namespace figures
                 case 6:
                     break;
             }
+
+            Console.WriteLine(ShapeContainer.list);
 
         }
 
@@ -216,6 +188,76 @@ namespace figures
             }
 
             //elem_lbl.Text = e.ItemIndex.ToString();
+        }
+
+        private void select_elem_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (select_elem.Text == "Новый")
+            {
+                now_elem = null;
+                past_new_values();
+                return;
+            }
+
+            add.Enabled = false;
+            foreach (AbstractFigure i in ShapeContainer.list)
+            {
+                if (i.number.ToString() == select_elem.Text)
+                {
+                    now_elem = i;
+                    parse_properties(i);
+                    break;
+                }
+            }
+            foreach (AbstractFigure i in ShapeContainer.list)
+            {
+                Console.WriteLine(i.number);
+
+            }
+
+        }
+
+        private void parse_properties(AbstractFigure f)
+        {
+            x_change.ValueChanged -= inp_ValueChanged;
+            y_change.ValueChanged -= inp_ValueChanged;
+
+            x_change.Value = f.x;
+            y_change.Value = f.y;
+
+            x_change.ValueChanged += inp_ValueChanged;
+            y_change.ValueChanged += inp_ValueChanged;
+
+            width_inp.Value = f.width;
+            height_inp.Value = f.height;
+
+        }
+
+        private void past_new_values()
+        {
+            add.Enabled = true;
+
+            x_change.ValueChanged -= inp_ValueChanged;
+            y_change.ValueChanged -= inp_ValueChanged;
+
+            x_change.Value = 0;
+            y_change.Value = 0;
+            
+            x_change.ValueChanged += inp_ValueChanged;
+            y_change.ValueChanged += inp_ValueChanged;
+            width_inp.Value = 100;
+            height_inp.Value = 100;
+        }
+
+
+
+        private void inp_ValueChanged(object sender, EventArgs e)
+        {
+            if (now_elem != null)
+            {
+                now_elem.MoveTo(Convert.ToInt32(x_change.Value),
+                                Convert.ToInt32(y_change.Value));
+            }
         }
     }
 

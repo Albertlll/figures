@@ -182,6 +182,7 @@
             y_change.Name = "y_change";
             y_change.Size = new Size(69, 37);
             y_change.TabIndex = 5;
+            y_change.ValueChanged += inp_ValueChanged;
             // 
             // y_lbl
             // 
@@ -205,6 +206,7 @@
             x_change.Name = "x_change";
             x_change.Size = new Size(69, 37);
             x_change.TabIndex = 7;
+            x_change.ValueChanged += inp_ValueChanged;
             // 
             // select_elem
             // 
@@ -219,6 +221,7 @@
             select_elem.Name = "select_elem";
             select_elem.Size = new Size(144, 41);
             select_elem.TabIndex = 1;
+            select_elem.SelectedIndexChanged += select_elem_SelectedIndexChanged;
             // 
             // width_inp
             // 
@@ -231,6 +234,7 @@
             width_inp.Name = "width_inp";
             width_inp.Size = new Size(137, 37);
             width_inp.TabIndex = 9;
+            width_inp.ValueChanged += inp_ValueChanged;
             // 
             // height_inp
             // 
@@ -310,7 +314,6 @@
             Name = "Form1";
             StartPosition = FormStartPosition.Manual;
             Text = "Form1";
-            Load += Form1_Load;
             properties.ResumeLayout(false);
             properties.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)y_change).EndInit();

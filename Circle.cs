@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace figures
 {
-    public class Square : Rectangle
+    public class Circle : Rectangle
     {
-        public Square(int x, int y, int side) : base(x, y, side, side){
+        public Circle(int x, int y, int d) : base(x, y, d, d)
+        {
         }
     }
 }

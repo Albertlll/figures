@@ -20,9 +20,35 @@ namespace figures
         {
             number = counter;
             counter++;
+            ShapeContainer.list.Add(this);
         }
         abstract public void Draw();
-        abstract public void MoveTo(int x, int y);
+
+        public void MoveTo(int x, int y)
+        
+        {
+            if (!(
+
+                (x < 0)
+                || (x > Init.picture_box.Width)
+                || (this.width + x > Init.picture_box.Width)
+
+                || (y < 0)
+                || (y > Init.picture_box.Height)
+                || (this.height + y > Init.picture_box.Height)
+                ))
+            {
+
+
+                // Если корректно
+                this.x = x;
+                this.y = y;
+                ShapeContainer.DelFigure(this, true);
+                this.Draw();
+
+
+            }
+        }
 
     }
 }

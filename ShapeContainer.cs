@@ -6,24 +6,22 @@ using System.Threading.Tasks;
 
 namespace figures
 {
-    public class ShapeContainer
+    public static class ShapeContainer
     {
-        private static List<AbstractFigure> list;
-        public ShapeContainer() {
-            list = new List<AbstractFigure>();
-        }
+        public static List<AbstractFigure> list =  new List<AbstractFigure>();
+        //public ShapeContainer() {
+          //  list = new List<AbstractFigure>();
+        //}
 
-        public static void AddFigure(AbstractFigure figure)
-        {
-            list.Add(figure);
-        }
+        //public static void AddFigure(AbstractFigure figure)
+        //{
+            //list.Add(figure);
+        //}
 
-        static public List<AbstractFigure> get_list()
-        {
-            return list;
-        }
-
-
+        //static public List<AbstractFigure> get_list()
+        //{
+            //return list;
+        //}
 
         public static void DelFigure(AbstractFigure figure, bool for_move)
         {
